@@ -1,0 +1,7 @@
+/app/__pycache__
+/app/management
+/app/migrations
+/quiz_project/settings.py
+/quiz_project/__pycache__
+/venv
+db.sqlite3
