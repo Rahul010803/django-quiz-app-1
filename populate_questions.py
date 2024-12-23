@@ -1,7 +1,7 @@
 import os
 import django
 from django.core.management.base import BaseCommand
-from app.models import Question, Level, Subject  # Adjust import paths as needed
+from app.models import Question, Level, Subject
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'quiz_project.settings')
 django.setup()
@@ -25,7 +25,6 @@ class Command(BaseCommand):
         subjects = ['Physics', 'Mathematics', 'Music', 'History', 'Geography', 'Literature', 'Science', 'Art', 'Sports',]
         for subject in subjects:
             Subject.objects.get_or_create(name=subject)
-            
             
         questions = [
             #Physics
@@ -1560,7 +1559,6 @@ class Command(BaseCommand):
                 'subject': 'Mathematics'
             }
         ]
-        
         # Add Questions to Database
         for q in questions:
             level = Level.objects.get(name=levels[q['level']])
@@ -1575,5 +1573,4 @@ class Command(BaseCommand):
                 level=level,
                 subject=subject
             )
-        
         self.stdout.write(self.style.SUCCESS('Successfully populated questions.'))
