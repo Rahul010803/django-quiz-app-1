@@ -1,0 +1,26 @@
+{% if questions %}
+    {% for question in questions %}
+    <tr>
+        <td>{{ question.question_text }}</td>
+        <td>
+            1. {{ question.option_1 }}<br>
+            2. {{ question.option_2 }}<br>
+            3. {{ question.option_3 }}<br>
+            4. {{ question.option_4 }}
+        </td>
+        <td>{{ question.correct_answer }}</td>
+        <td>{{ question.level.name }}</td>
+        <td>{{ question.subject.name }}</td>
+        <td>
+            <a href="{% url 'update_question' question.id %}" class="btn btn-info">Edit</a>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-question-id="{{ question.id }}" data-question-text="{{ question.question_text }}">
+                Delete
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="6">No questions found.</td>
+    </tr>
+{% endif %}

@@ -220,11 +220,48 @@ def delete_subject(request, subject_id):
 
 
 
+from django.shortcuts import render
+from .models import Question, Subject
 
-# For managing questions
 def manage_questions(request):
+    subject_id = request.GET.get('subject_id', None)
+    level_id = request.GET.get('level_id', None)
+    
+    subjects = Subject.objects.all()
+    levels = Level.objects.all()
+
     questions = Question.objects.all()
-    return render(request, 'manage_questions.html', {'questions': questions})
+    
+    # Apply subject filter if provided
+    if subject_id:
+        questions = questions.filter(subject_id=subject_id)
+    
+    # Apply level filter if provided
+    if level_id:
+        questions = questions.filter(level_id=level_id)
+    
+    selected_level = Level.objects.filter(id=level_id).first() if level_id else None
+    selected_subject = Subject.objects.filter(id=subject_id).first() if subject_id else None
+
+    return render(request, 'manage_questions.html', {
+        'subjects': subjects,
+        'levels': levels,
+        'questions': questions,
+        'level': selected_level,
+        'subject': selected_subject
+    })
+
+
+
+
+    # if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+    #     # Render the table rows for AJAX request (to update only the table)
+    #     level = Level.objects.filter(level_id=level_id)
+    #     return render(request, '_questions_table.html', {'questions': questions, 'level': level})
+
+    # # Render the full page including the subject filter and questions table
+    # return render(request, 'manage_questions.html', {'subjects': subjects, 'levels': levels, 'questions': questions})
+
 
 def add_question(request):
     if request.method == 'POST':
@@ -319,7 +356,6 @@ def contact(request):
         if not all([name, email, message]):
             messages.error(request, 'All fields are required.')
             return redirect('contact')
-
         
 
     return render(request, 'contact.html')
@@ -328,7 +364,8 @@ def history(request):
     return render(request,'history.html')
 
 def leaderboard(request):
-    return render(request,'leaderboard.html')
+    users = User.objects.all()
+    return render(request,'leaderboard.html',{'users':users})
 
 
 def game_level(request, subject_name):

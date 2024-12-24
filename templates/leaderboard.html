@@ -4,5 +4,28 @@ LeaderBoard
 {% endblock %}
 {% block body %}
 {% load static %}
-<h2>Under Construction</h2>
+<h2>Leader Board</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if users %}
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="4">No users found.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
 {% endblock %}
